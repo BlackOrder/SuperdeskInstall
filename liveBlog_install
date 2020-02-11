@@ -31,18 +31,14 @@ _skip_install() {
 ## virtualenv and activate script
 python3env=/opt/python3env
 if [ ! -d "$python3env" ]; then
-curl -o- https://raw.githubusercontent.com/BlackOrder/SuperdeskInstall/master/subScripts/install_nvm_python3env | bash
+curl -o- https://raw.githubusercontent.com/BlackOrder/SuperdeskInstall/master/subScripts/nvm_python3env | bash
 fi
 
-NVM_DIR="$HOME/.nvm"
-. "$NVM_DIR/nvm.sh"
-. "$NVM_DIR/bash_completion"
-
 ## database
-curl -o- https://raw.githubusercontent.com/BlackOrder/SuperdeskInstall/master/subScripts/install_database | bash
+curl -o- https://raw.githubusercontent.com/BlackOrder/SuperdeskInstall/master/subScripts/database | bash
 
 ## elasticsearch 2.4 && 5.6
-curl -o- https://raw.githubusercontent.com/BlackOrder/SuperdeskInstall/master/subScripts/install_elasticsearch | bash
+curl -o- https://raw.githubusercontent.com/BlackOrder/SuperdeskInstall/master/subScripts/elasticsearch | bash
 
 
 ### build
@@ -101,6 +97,12 @@ cd /opt/liveblog/server
 time pip install -U -r $req
 
 cd /opt/liveblog/client
+
+set +ux
+source ~/.nvm/nvm.sh;
+nvm use lts/*;
+set -ux
+
 time npm install
 
 # 3.0.9, 3.1.0 versions need bower
@@ -204,6 +206,12 @@ python manage.py register_bloglist
 
 [ -z "${grunt_build-1}" ] || (
 cd /opt/liveblog/client
+
+set +ux
+source ~/.nvm/nvm.sh;
+nvm use 7.10.1;
+set -ux
+
 time grunt build --max-old-space-size=3000 --ws=ws://$LiveBlogDomain/ws
 )
 

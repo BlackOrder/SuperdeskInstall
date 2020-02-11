@@ -25,18 +25,14 @@ _skip_install() {
 ## virtualenv and activate script
 python3env=/opt/python3env
 if [ ! -d "$python3env" ]; then
-curl -o- https://raw.githubusercontent.com/BlackOrder/SuperdeskInstall/master/subScripts/install_nvm_python3env | bash
+curl -o- https://raw.githubusercontent.com/BlackOrder/SuperdeskInstall/master/subScripts/nvm_python3env | bash
 fi
 
-NVM_DIR="$HOME/.nvm"
-. "$NVM_DIR/nvm.sh"
-. "$NVM_DIR/bash_completion"
-
 ## database
-curl -o- https://raw.githubusercontent.com/BlackOrder/SuperdeskInstall/master/subScripts/install_database | bash
+curl -o- https://raw.githubusercontent.com/BlackOrder/SuperdeskInstall/master/subScripts/database | bash
 
 ## elasticsearch 2.4 && 5.6
-curl -o- https://raw.githubusercontent.com/BlackOrder/SuperdeskInstall/master/subScripts/install_elasticsearch | bash
+curl -o- https://raw.githubusercontent.com/BlackOrder/SuperdeskInstall/master/subScripts/elasticsearch | bash
 
 ### build
 locale-gen en_US.UTF-8
@@ -95,7 +91,12 @@ time pip install -U -r $req
 
 cd /opt/superdesk/client
 
-nvm use lts/* && time npm install
+set +ux
+source ~/.nvm/nvm.sh;
+nvm use lts/*;
+set -ux
+
+time npm install
 
 
 ### deploy
@@ -187,7 +188,12 @@ unset sample_data
 [ -z "${grunt_build-1}" ] || (
 cd /opt/superdesk/client
 
-nvm use 7.10.1 && time grunt build --max-old-space-size=3000 --ws=ws://$SuperdeskDomain/ws
+set +ux
+source ~/.nvm/nvm.sh;
+nvm use 7.10.1;
+set -ux
+
+time grunt build --max-old-space-size=3000 --ws=ws://$SuperdeskDomain/ws
 )
 
 # Use latest honcho with --no-colour option
