@@ -20,8 +20,6 @@ curl libfontconfig libssl-dev \
 libxml2-dev libxslt1-dev \
 libxmlsec1-dev
 
-echo "***************************** curl *****************************"
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | bash
 
 echo "***************************** activate *****************************"
 . ~/.bashrc
