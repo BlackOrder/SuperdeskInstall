@@ -48,8 +48,8 @@ grunt --version
 
 ## virtualenv and activate script
 env=/opt/superdesk/env
-[ -d $env ] && rm -rf $env
-python3 -m venv $env
+[ -d $env ] && sudo rm -rf $env
+sudo python3 -m venv $env
 unset env
 
 
