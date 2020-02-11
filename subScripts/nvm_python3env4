@@ -1,0 +1,83 @@
+#!/bin/bash
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -exuo pipefail
+
+export DEBIAN_FRONTEND=noninteractive
+export DBUS_SESSION_BUS_ADDRESS=/dev/null
+
+sudo locale-gen en_US.UTF-8
+sudo update-locale LANGUAGE=en_US.UTF-8
+sudo update-locale LANG=en_US.UTF-8
+sudo update-locale LC_ALL=en_US.UTF-8
+
+sudo apt-get update
+sudo apt-get -y install --no-install-recommends \
+git python3 python3-dev python3-venv \
+build-essential libffi-dev \
+libtiff5-dev libjpeg8-dev zlib1g-dev \
+libfreetype6-dev liblcms2-dev libwebp-dev \
+curl libfontconfig libssl-dev \
+libxml2-dev libxslt1-dev \
+libxmlsec1-dev
+
+MYNVM_DIR="$HOME/.nvm"
+
+echo "***************************** curl *****************************"
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | bash
+
+echo "***************************** activate *****************************"
+. "$MYNVM_DIR/nvm.sh"
+
+echo "***************************** ls *****************************"
+nvm ls
+
+echo "***************************** install node *****************************"
+nvm install node
+
+echo "***************************** install iojs *****************************"
+nvm install iojs
+
+echo "***************************** install lts/* *****************************"
+nvm install lts/*
+
+echo "***************************** install lts/argon *****************************"
+nvm install lts/argon
+
+echo "***************************** install lts/boron *****************************"
+nvm install lts/boron
+
+echo "***************************** install lts/carbon *****************************"
+nvm install lts/carbon
+
+echo "***************************** install lts/dubnium *****************************"
+nvm install lts/dubnium
+
+echo "***************************** install lts/erbium *****************************"
+nvm install lts/erbium
+
+echo "***************************** install 7.10.1 *****************************"
+nvm install 7.10.1
+
+echo "***************************** use 7.10.1 *****************************"
+nvm use 7.10.1
+
+echo "***************************** ls *****************************"
+nvm ls
+
+echo "***************************** install -g grunt-cli *****************************"
+npm install -g grunt-cli
+
+echo "***************************** node --version *****************************"
+node --version
+echo "***************************** npm --version *****************************"
+npm --version
+echo "***************************** grunt --version *****************************"
+grunt --version
+echo "***************************** python -V *****************************"
+python -V
+
+## virtualenv and activate script
+env=/opt/python3env
+[ -d $env ] && sudo rm -rf $env
+sudo python3 -m venv $env
+unset env
