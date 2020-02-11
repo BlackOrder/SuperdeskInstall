@@ -23,7 +23,7 @@ bash <(curl -s https://raw.githubusercontent.com/BlackOrder/SuperdeskInstall/mas
 bash <(curl -s https://raw.githubusercontent.com/BlackOrder/SuperdeskInstall/master/install_liveBlog) <superdesk_ip_or_domain> <liveblog_ip_or_domain>
 ```
 
-Open http://<ip_or_domain> in browser
+Open `http://<ip_or_domain>` in browser
 
 *login:* `admin`
 
