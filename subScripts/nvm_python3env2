@@ -26,8 +26,6 @@ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | b
 
 . "$NVM_DIR/nvm.sh"
 
-. "$NVM_DIR/bash_completion"
-
 nvm ls && nvm install node && nvm install iojs && nvm install lts/* && nvm install lts/argon && nvm install lts/boron && nvm install lts/carbon && nvm install lts/dubnium && nvm install lts/erbium && nvm install 7.10.1 && nvm use 7.10.1 && nvm ls
 
 npm install -g grunt-cli
