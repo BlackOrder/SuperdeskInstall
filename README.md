@@ -6,8 +6,9 @@
 Replace `<ip_or_domain>` with public IP address or domain where superdesk'll be accessible.
 
 ## Install on fresh Ubuntu 16.04
-### Install **Superdeak**, **Superdeak's NewsRoom**, **Superdeak's LiveBlog**
+#### **Superdeak**, **Superdeak's NewsRoom**, **Superdeak's LiveBlog**
 replace *<superdesk_ip_or_domain>* with your **Superdesk's sub/domain**. Default: *localhost*
+
 replace *<newsroom_ip_or_domain>* with your **NewsRoom's sub/domain**. Default: *localhost*
 
 replace *<liveblog_ip_or_domain>* with your **LiveBlog's sub/domain**. Default: *localhost*
@@ -22,5 +23,7 @@ bash <(curl -s https://raw.githubusercontent.com/BlackOrder/SuperdeskInstall/mas
 ```
 
 Open http://<ip_or_domain> in browser
+
 *login:* **admin**
+
 *password:* **admin**
