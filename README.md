@@ -8,7 +8,6 @@ Replace `<ip_or_domain>` with public IP address or domain where superdesk'll be 
 ## Install on fresh Ubuntu 16.04
 ### Install **Superdeak**, **Superdeak's NewsRoom**, **Superdeak's LiveBlog**
 replace *<superdesk_ip_or_domain>* with your **Superdesk's sub/domain**. Default: *localhost*
-
 replace *<newsroom_ip_or_domain>* with your **NewsRoom's sub/domain**. Default: *localhost*
 
 replace *<liveblog_ip_or_domain>* with your **LiveBlog's sub/domain**. Default: *localhost*
