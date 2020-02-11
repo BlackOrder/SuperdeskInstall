@@ -20,7 +20,7 @@ curl libfontconfig libssl-dev \
 libxml2-dev libxslt1-dev \
 libxmlsec1-dev
 
-NVM_DIR=”$HOME/.nvm”
+NVM_DIR="$HOME/.nvm"
 
 # node & npm
 if [ ! -d "$NVM_DIR" ]; then
@@ -29,7 +29,7 @@ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | b
 
 fi
 
-. “$NVM_DIR/nvm.sh”
+. "$NVM_DIR/nvm.sh"
 
 .   "$NVM_DIR/bash_completion"
 
