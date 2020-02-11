@@ -100,7 +100,7 @@ source ~/.nvm/nvm.sh;
 nvm use lts/*;
 set -ux
 
-time npm install
+time sudo npm install
 
 
 ### deploy
@@ -197,7 +197,7 @@ source ~/.nvm/nvm.sh;
 nvm use 7.10.1;
 set -ux
 
-time grunt build --max-old-space-size=3000 --ws=ws://$SuperdeskDomain/ws
+time sudo grunt build --max-old-space-size=3000 --ws=ws://$SuperdeskDomain/ws
 )
 
 # Use latest honcho with --no-colour option

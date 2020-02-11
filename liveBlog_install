@@ -107,13 +107,13 @@ source ~/.nvm/nvm.sh;
 nvm use lts/*;
 set -ux
 
-time npm install
+time sudo npm install
 
 # 3.0.9, 3.1.0 versions need bower
 cd /opt/liveblog/client
 if [ -f bower.json ]; then
-    npm i bower
-    time bower --allow-root install
+    sudo npm i bower
+    time sudo bower --allow-root install
 fi
 
 
@@ -216,7 +216,7 @@ source ~/.nvm/nvm.sh;
 nvm use 7.10.1;
 set -ux
 
-time grunt build --max-old-space-size=3000 --ws=ws://$LiveBlogDomain/ws
+time sudo grunt build --max-old-space-size=3000 --ws=ws://$LiveBlogDomain/ws
 )
 
 # Use latest honcho with --no-colour option

@@ -102,8 +102,8 @@ source ~/.nvm/nvm.sh;
 nvm use lts/*;
 set -ux
 
-time npm install
-time npm run build
+time sudo npm install
+time sudo npm run build
 
 
 cat <<"EOF" > /opt/newsroom/activate.sh
