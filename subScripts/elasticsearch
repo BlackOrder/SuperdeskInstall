@@ -21,7 +21,6 @@ sleep .5
 done
 }
 
-
 sudo locale-gen en_US.UTF-8
 sudo update-locale LANGUAGE=en_US.UTF-8
 sudo update-locale LANG=en_US.UTF-8
@@ -156,7 +155,7 @@ unset cfg es_backups
 
 fi
 
-sudo mv /var/lib/dpkg/info/elasticsearch.* /tmp
+sudo mv /var/lib/dpkg/info/elasticsearch.* /tmp || true
 sudo apt-get -y update
 
 ELASTICSEARCH24_CONF=/etc/init.d/elasticsearch24
@@ -275,6 +274,6 @@ unset cfg es_backups
 
 fi
 
-sudo mv /var/lib/dpkg/info/elasticsearch.* /tmp
+sudo mv /var/lib/dpkg/info/elasticsearch.* /tmp || true
 sudo apt-get -y update
 sudo apt-get -y install --no-install-recommends openjdk-8-jre-headless
