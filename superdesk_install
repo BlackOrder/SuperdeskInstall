@@ -117,7 +117,7 @@ PATH=/opt/superdesk/client/node_modules/.bin/:$PATH
 
 HOST=${HOST:-$SuperdeskDomain}
 HOST_SSL=${HOST_SSL:-}
-DB_HOST=${DB_HOST:-$SuperdeskDomain}
+DB_HOST=${DB_HOST:-'localhost'}
 DB_NAME=${DB_NAME:-'superdesk'}
 
 [ -n "${HOST_SSL:-}" ] && SSL='s' || SSL=''
