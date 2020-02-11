@@ -131,7 +131,7 @@ PATH=/opt/liveblog/client/node_modules/.bin/:$PATH
 
 HOST=${HOST:-$SuperdeskDomain}
 HOST_SSL=${HOST_SSL:-}
-DB_HOST=${DB_HOST:-$SuperdeskDomain}
+DB_HOST=${DB_HOST:-$LiveBlogDomain}
 DB_NAME=${DB_NAME:-'liveblog'}
 
 [ -n "${HOST_SSL:-}" ] && SSL='s' || SSL=''
