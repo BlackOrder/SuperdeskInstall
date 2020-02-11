@@ -20,13 +20,12 @@ curl libfontconfig libssl-dev \
 libxml2-dev libxslt1-dev \
 libxmlsec1-dev
 
-MYNVM_DIR="$HOME/.nvm"
-
 echo "***************************** curl *****************************"
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | bash
 
 echo "***************************** activate *****************************"
-. "$MYNVM_DIR/nvm.sh"
+. ~/.bashrc
+
 
 echo "***************************** ls *****************************"
 nvm ls
