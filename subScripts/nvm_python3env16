@@ -22,10 +22,13 @@ libxmlsec1-dev
 
 
 echo "***************************** activate *****************************"
+
 set +ux
+
 source ~/.nvm/nvm.sh;
-set -ux
 
 echo "***************************** install node *****************************"
 
 nvm install node
+
+set -ux
