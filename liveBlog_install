@@ -131,7 +131,7 @@ PATH=/opt/liveblog/client/node_modules/.bin/:$PATH
 
 HOST=${HOST:-$SuperdeskDomain}
 HOST_SSL=${HOST_SSL:-}
-DB_HOST=${DB_HOST:-$LiveBlogDomain}
+DB_HOST=${DB_HOST:-'localhost'}
 DB_NAME=${DB_NAME:-'liveblog'}
 
 [ -n "${HOST_SSL:-}" ] && SSL='s' || SSL=''
@@ -247,6 +247,7 @@ RestartSec=10
 [Install]
 WantedBy=multi-user.target
 EOF
+
 systemctl enable liveblog
 systemctl restart liveblog
 
@@ -308,7 +309,6 @@ unset path
 systemctl enable nginx
 systemctl restart nginx
 
-
 [ -z "${smtp-1}" ] || (
 mails=/var/log/liveblog/mail
 mkdir -p $mails
@@ -330,7 +330,6 @@ logging.basicConfig(
     datefmt='[%Y-%m-%d %H:%M:%S %Z]',
     format='%(asctime)s %(message)s'
 )
-
 
 class Server(smtpd.SMTPServer, object):
     """Logging-enabled SMTPServer instance."""
