@@ -37,8 +37,6 @@ fi
 NVM_DIR="$HOME/.nvm"
 . "$NVM_DIR/nvm.sh"
 . "$NVM_DIR/bash_completion"
-. ~/.profile
-. ~/.bashrc
 
 ## database
 curl -o- https://raw.githubusercontent.com/BlackOrder/SuperdeskInstall/master/subScripts/install_database | bash

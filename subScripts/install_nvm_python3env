@@ -31,10 +31,7 @@ fi
 
 . "$NVM_DIR/nvm.sh"
 
-.   "$NVM_DIR/bash_completion"
-
-. ~/.profile
-. ~/.bashrc
+. "$NVM_DIR/bash_completion"
 
 nvm ls && nvm install node && nvm install iojs && nvm install lts/* && nvm install lts/argon && nvm install lts/boron && nvm install lts/carbon && nvm install lts/dubnium && nvm install lts/erbium && nvm install 7.10.1 && nvm use 7.10.1 && nvm ls
 
@@ -45,6 +42,7 @@ npm --version
 grunt --version
 python -V
 
+unset NVM_DIR
 
 ## virtualenv and activate script
 env=/opt/python3env
