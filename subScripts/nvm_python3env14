@@ -23,7 +23,7 @@ libxmlsec1-dev
 
 echo "***************************** activate *****************************"
 
-[ -s "$HOME/.nvm/nvm.sh" ] && \. "$HOME/.nvm/nvm.sh"
+source ~/.nvm/nvm.sh;
 
 echo "***************************** install node *****************************"
 
