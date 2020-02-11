@@ -87,7 +87,7 @@ wait_elastic() {
         sleep .5
     done
 }
-if ! _skip_install elasticsearch; then
+if ! _skip_install elasticsearch24; then
     wget --continue https://download.elastic.co/elasticsearch/release/org/elasticsearch/distribution/deb/elasticsearch/2.4.6/elasticsearch-2.4.6.deb
     wget https://download.elastic.co/elasticsearch/release/org/elasticsearch/distribution/deb/elasticsearch/2.4.6/elasticsearch-2.4.6.deb.sha1 -O elasticsearch-2.4.6.deb.sha1
     echo "  elasticsearch-2.4.6.deb" >>elasticsearch-2.4.6.deb.sha1
