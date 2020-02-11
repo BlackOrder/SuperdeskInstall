@@ -43,3 +43,16 @@ npm install -g grunt-cli
 node --version
 npm --version
 grunt --version
+
+
+
+## virtualenv and activate script
+env=/opt/superdesk/env
+[ -d $env ] && rm -rf $env
+python3 -m venv $env
+unset env
+
+
+node --version
+npm --version
+grunt --version
