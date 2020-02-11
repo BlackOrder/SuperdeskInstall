@@ -21,6 +21,25 @@ _skip_install() {
     dpkg -l | grep '^ii.*'$1 && [ -z ${pkg_upgrade:-''} ]
 }
 
+
+## virtualenv and activate script
+python3env=/opt/python3env
+if [ ! -d "$python3env" ]; then
+curl -o- https://raw.githubusercontent.com/BlackOrder/SuperdeskInstall/master/subScripts/install_nvm_python3env | bash
+fi
+
+NVM_DIR="$HOME/.nvm"
+. "$NVM_DIR/nvm.sh"
+. "$NVM_DIR/bash_completion"
+. ~/.profile
+. ~/.bashrc
+
+## database
+curl -o- https://raw.githubusercontent.com/BlackOrder/SuperdeskInstall/master/subScripts/install_database | bash
+
+## elasticsearch 2.4 && 5.6
+curl -o- https://raw.githubusercontent.com/BlackOrder/SuperdeskInstall/master/subScripts/install_elasticsearch | bash
+
 ### build
 locale-gen en_US.UTF-8
 
@@ -41,14 +60,8 @@ cat <<"EOF" > /etc/logrotate.d/superdesk
 EOF
 logrotate /etc/logrotate.conf
 
-## virtualenv and activate script
-env=/opt/superdesk/env
-[ -d $env ] && rm -rf $env
-python3 -m venv $env
-unset env
-
 cat <<"EOF" > /opt/superdesk/activate.sh
-. /opt/superdesk/env/bin/activate
+. $python3env/bin/activate
 
 set -a
 LC_ALL=en_US.UTF-8
@@ -84,13 +97,13 @@ time pip install -U -r $req
 
 cd /opt/superdesk/client
 
-nvm install lts/* && nvm use lts/* && time npm install
+nvm use lts/* && time npm install
 
 
 ### deploy
 cat <<"EOF" > /opt/superdesk/activate.sh
 # you could write variables to /opt/superdesk/env.sh
-. /opt/superdesk/env/bin/activate
+. $python3env/bin/activate
 
 set -a
 LC_ALL=en_US.UTF-8
@@ -176,9 +189,7 @@ unset sample_data
 [ -z "${grunt_build-1}" ] || (
 cd /opt/superdesk/client
 
-nvm install 7.10.1 && nvm use 7.10.1
-
-time grunt build --max-old-space-size=10000 --ws=ws://superdesk.mediacast.media/ws
+nvm use 7.10.1 && time grunt build --max-old-space-size=3000 --ws=ws://$SuperdeskDomain/ws
 )
 
 # Use latest honcho with --no-colour option
@@ -272,6 +283,11 @@ location / {
 }
 EOF
 
+sed -i "s/tcp_nopush on/#tcp_nopush on/g" /etc/nginx/nginx.conf
+sed -i "s/tcp_nodelay on/#tcp_nodelay on/g" /etc/nginx/nginx.conf
+sed -i "s/gzip on/#gzip on/g" /etc/nginx/nginx.conf
+sed -i "s/gzip_disable /#gzip_disable /g" /etc/nginx/nginx.conf
+
 cat <<"EOF" > $path/params.conf
 tcp_nopush on;
 tcp_nodelay on;
@@ -294,8 +310,8 @@ gzip_buffers 16 8k;
 gzip_http_version 1.1;
 gzip_types text/plain text/css application/json application/x-javascript application/javascript text/xml application/xml application/xml+rss text/javascript;
 
-proxy_set_header Host $host;
-proxy_set_header X-Forwarded-For $remote_addr;
+proxy_set_header Host \$host;
+proxy_set_header X-Forwarded-For \$remote_addr;
 proxy_set_header Accept-Encoding "";
 proxy_buffering on;
 proxy_ignore_client_abort off;
@@ -339,7 +355,6 @@ logging.basicConfig(
     datefmt='[%Y-%m-%d %H:%M:%S %Z]',
     format='%(asctime)s %(message)s'
 )
-
 
 class Server(smtpd.SMTPServer, object):
     """Logging-enabled SMTPServer instance."""
@@ -397,7 +412,7 @@ Wants=network.target
 After=network.target
 
 [Service]
-ExecStart=/bin/sh -c '. /opt/superdesk/env/bin/activate && exec python3 $smtp_py localhost 25 $mails'
+ExecStart=/bin/sh -c '. $python3env/bin/activate && exec python3 $smtp_py $SuperdeskDomain 25 $mails'
 WorkingDirectory=/opt/superdesk
 Restart=always
 
