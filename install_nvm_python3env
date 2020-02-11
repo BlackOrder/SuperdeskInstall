@@ -43,7 +43,7 @@ npm install -g grunt-cli
 node --version
 npm --version
 grunt --version
-
+python -V
 
 
 ## virtualenv and activate script
@@ -56,3 +56,4 @@ unset env
 node --version
 npm --version
 grunt --version
+python -V
