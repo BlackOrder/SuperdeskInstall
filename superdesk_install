@@ -54,6 +54,10 @@ cat <<"EOF" > /etc/logrotate.d/superdesk
 EOF
 logrotate /etc/logrotate.conf
 
+f="/opt/superdesk/activate.sh"
+dir=$(dirname "$f")
+mkdir -p "$dir"
+
 cat <<"EOF" > /opt/superdesk/activate.sh
 . $python3env/bin/activate
 

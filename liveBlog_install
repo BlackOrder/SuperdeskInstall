@@ -61,6 +61,10 @@ cat <<"EOF" > /etc/logrotate.d/liveblog
 EOF
 logrotate /etc/logrotate.conf
 
+f="/opt/liveblog/activate.sh"
+dir=$(dirname "$f")
+mkdir -p "$dir"
+
 cat <<"EOF" > /opt/liveblog/activate.sh
 . $python3env/bin/activate
 
