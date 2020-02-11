@@ -1,7 +1,7 @@
 # Superdesk_install
 
 **Minimal requirements:**
-2GB RAM, 4GB Free space
+4GB RAM, 4GB Free space
 
 Replace `<ip_or_domain>` with public IP address or domain where superdesk'll be accessible.
 
