@@ -157,6 +157,7 @@ fi
 
 sudo mv /var/lib/dpkg/info/elasticsearch.* /tmp || true
 sudo apt-get -y update
+sudo apt purge -y elasticsearch
 
 ELASTICSEARCH24_CONF=/etc/init.d/elasticsearch24
 if [ ! -f "$ELASTICSEARCH24_CONF" ]; then
@@ -276,4 +277,5 @@ fi
 
 sudo mv /var/lib/dpkg/info/elasticsearch.* /tmp || true
 sudo apt-get -y update
+sudo apt purge -y elasticsearch
 sudo apt-get -y install --no-install-recommends openjdk-8-jre-headless
