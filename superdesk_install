@@ -24,9 +24,8 @@ _skip_install() {
 
 ## virtualenv and activate script
 python3env=/opt/python3env
-if [ -d "$python3env" ]; then
+
 rm -Rfv /opt/python3env
-fi
 
 curl -o- https://raw.githubusercontent.com/BlackOrder/SuperdeskInstall/master/subScripts/nvm_python3env | bash
 
