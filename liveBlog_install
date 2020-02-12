@@ -121,18 +121,19 @@ fi
 
 
 ### deploy
-cat <<EOF > /opt/liveblog/activate.sh
+cat <<"EOF" > /opt/liveblog/activate.sh
 # you could write variables to /opt/liveblog/env.sh
 . /opt/python3env/bin/activate
 
 set -a
 LC_ALL=en_US.UTF-8
 PYTHONUNBUFFERED=1
-PATH=/opt/liveblog/client/node_modules/.bin/:\$PATH
+PATH=/opt/liveblog/client/node_modules/.bin/:$PATH
 
 [ ! -f /opt/liveblog/env.sh ] || . /opt/liveblog/env.sh
 
-HOST=${HOST:-$SuperdeskDomain}
+SUPERDESKHOST=${SUPERDESKHOST:-'ReplaceSuperdeskDomain'}
+HOST=${HOST:-'ReplaceLiveBlogDomain'}
 HOST_SSL=${HOST_SSL:-}
 DB_HOST=${DB_HOST:-'localhost'}
 DB_NAME=${DB_NAME:-'liveblog'}
@@ -142,10 +143,10 @@ DB_NAME=${DB_NAME:-'liveblog'}
 # - "proxy_set_header Host <host>;" in nginx
 # - the same "<host>" for next two settings
 # TODO: try to fix at backend side, it should accept any host
-SUPERDESK_URL="http\$SSL://$HOST/api"
-CONTENTAPI_URL="http\$SSL://$HOST/contentapi"
-SUPERDESK_WS_URL="ws\$SSL://$HOST/ws"
-SUPERDESK_CLIENT_URL="http\$SSL://$HOST"
+SUPERDESK_URL="http$SSL://$SUPERDESKHOST/api"
+CONTENTAPI_URL="http$SSL://$SUPERDESKHOST/contentapi"
+SUPERDESK_WS_URL="ws$SSL://$SUPERDESKHOST/ws"
+SUPERDESK_CLIENT_URL="http$SSL://$SUPERDESKHOST"
 
 MONGO_URI="mongodb://$DB_HOST/$DB_NAME"
 LEGAL_ARCHIVE_URI="mongodb://$DB_HOST/${DB_NAME}_la"
@@ -166,7 +167,7 @@ CELERY_BROKER_URL=${CELERY_BROKER_URL:-$REDIS_URL}
 
 if [ -n "$AMAZON_CONTAINER_NAME" ]; then
     AMAZON_S3_SUBFOLDER=${AMAZON_S3_SUBFOLDER:-'liveblog'}
-    MEDIA_PREFIX=${MEDIA_PREFIX:-"http\$SSL://$HOST/api/upload-raw"}
+    MEDIA_PREFIX=${MEDIA_PREFIX:-"http$SSL://$SUPERDESKHOST/api/upload-raw"}
 
     # TODO: remove after full adoption of MEDIA_PREFIX
     AMAZON_SERVE_DIRECT_LINKS=${AMAZON_SERVE_DIRECT_LINKS:-True}
@@ -185,6 +186,9 @@ S3_THEMES_PREFIX=${S3_THEMES_PREFIX:-"/liveblog/"}
 EMBEDLY_KEY=${EMBEDLY_KEY:-}
 set +a
 EOF
+
+sed -i "s/ReplaceSuperdeskDomain/${SuperdeskDomain}/g" /opt/liveblog/activate.sh
+sed -i "s/ReplaceLiveBlogDomain/${LiveBlogDomain}/g" /opt/liveblog/activate.sh
 
 _activate
 
