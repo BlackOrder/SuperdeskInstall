@@ -117,10 +117,10 @@ PATH=/opt/superdesk/client/node_modules/.bin/:\$PATH
 
 HOST=${HOST:-$SuperdeskDomain}
 HOST_SSL=${HOST_SSL:-}
+SSL=${SSL:-}
 DB_HOST=${DB_HOST:-'localhost'}
 DB_NAME=${DB_NAME:-'superdesk'}
 
-[ -n "${HOST_SSL:-}" ] && SSL='s' || SSL=''
 # To work properly inside and outside container, must be
 # - "proxy_set_header Host <host>;" in nginx
 # - the same "<host>" for next two settings
