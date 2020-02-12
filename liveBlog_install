@@ -119,7 +119,6 @@ if [ -f bower.json ]; then
     time sudo bower --allow-root install
 fi
 
-
 ### deploy
 cat <<"EOF" > /opt/liveblog/activate.sh
 # you could write variables to /opt/liveblog/env.sh
