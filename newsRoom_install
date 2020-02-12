@@ -43,6 +43,7 @@ wait_elastic() {
         sleep 5
     done
 }
+
 if ! _skip_install elasticsearch; then
     # for elasticsearch 2.4.x declare next
     # elastic_version=2.x
