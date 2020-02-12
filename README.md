@@ -11,21 +11,45 @@ Replace `<ip_or_domain>` with public IP address or domain where superdesk'll be 
 **Install Superdesk**
 replace `<superdesk_ip_or_domain>` with your `Superdesk's sub/domain`. Default: `localhost`
 ```sh
+
+rm -Rfv /opt/python3env
+
+curl -o- https://raw.githubusercontent.com/BlackOrder/SuperdeskInstall/master/subScripts/nvm_python3env | bash
+
+source /opt/python3env/bin/activate
+
 bash <(curl -s https://raw.githubusercontent.com/BlackOrder/SuperdeskInstall/master/superdesk_install) <superdesk_ip_or_domain>
+
 ```
 
 **Install Superdesk's NewsRoom** - *you have to install superdesk first*
 replace `<superdesk_ip_or_domain>` with your `Superdesk's sub/domain`. Default: `localhost`
 replace `<newsroom_ip_or_domain>` with your `NewsRoom's sub/domain`. Default: `localhost`
 ```sh
+
+rm -Rfv /opt/python3env
+
+curl -o- https://raw.githubusercontent.com/BlackOrder/SuperdeskInstall/master/subScripts/nvm_python3env | bash
+
+source /opt/python3env/bin/activate
+
 bash <(curl -s https://raw.githubusercontent.com/BlackOrder/SuperdeskInstall/master/newsRoom_install) <superdesk_ip_or_domain> <newsroom_ip_or_domain>
+
 ```
 
 **Install Superdesk's LiveBlog** - *you have to install superdesk first*
 replace `<superdesk_ip_or_domain>` with your `Superdesk's sub/domain`. Default: `localhost`
 replace `<liveblog_ip_or_domain>` with your `LiveBlog's sub/domain`. Default: `localhost`
 ```sh
+
+rm -Rfv /opt/python3env
+
+curl -o- https://raw.githubusercontent.com/BlackOrder/SuperdeskInstall/master/subScripts/nvm_python3env | bash
+
+source /opt/python3env/bin/activate
+
 bash <(curl -s https://raw.githubusercontent.com/BlackOrder/SuperdeskInstall/master/liveBlog_install) <superdesk_ip_or_domain> <liveblog_ip_or_domain>
+
 ```
 
 Open `http://<ip_or_domain>` in browser
