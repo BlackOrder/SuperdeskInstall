@@ -58,8 +58,8 @@ f="/opt/superdesk/activate.sh"
 dir=$(dirname "$f")
 mkdir -p "$dir"
 
-cat <<"EOF" > /opt/superdesk/activate.sh
-. $python3env/bin/activate
+cat <<EOF > /opt/superdesk/activate.sh
+. /opt/python3env/bin/activate
 
 set -a
 LC_ALL=en_US.UTF-8
@@ -104,14 +104,14 @@ time sudo npm install
 
 
 ### deploy
-cat <<"EOF" > /opt/superdesk/activate.sh
+cat <<EOF > /opt/superdesk/activate.sh
 # you could write variables to /opt/superdesk/env.sh
-. $python3env/bin/activate
+. /opt/python3env/bin/activate
 
 set -a
 LC_ALL=en_US.UTF-8
 PYTHONUNBUFFERED=1
-PATH=/opt/superdesk/client/node_modules/.bin/:$PATH
+PATH=/opt/superdesk/client/node_modules/.bin/:\$PATH
 
 [ ! -f /opt/superdesk/env.sh ] || . /opt/superdesk/env.sh
 
@@ -296,7 +296,7 @@ sed -i "s/tcp_nodelay on/#tcp_nodelay on/g" /etc/nginx/nginx.conf
 sed -i "s/gzip on/#gzip on/g" /etc/nginx/nginx.conf
 sed -i "s/gzip_disable /#gzip_disable /g" /etc/nginx/nginx.conf
 
-cat <<"EOF" > $path/params.conf
+cat <<EOF > $path/params.conf
 tcp_nopush on;
 tcp_nodelay on;
 output_buffers 1 256k;
@@ -420,7 +420,7 @@ Wants=network.target
 After=network.target
 
 [Service]
-ExecStart=/bin/sh -c '. $python3env/bin/activate && exec python3 $smtp_py $SuperdeskDomain 25 $mails'
+ExecStart=/bin/sh -c '. /opt/python3env/bin/activate && exec python3 $smtp_py $SuperdeskDomain 25 $mails'
 WorkingDirectory=/opt/superdesk
 Restart=always
 

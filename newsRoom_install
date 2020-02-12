@@ -63,14 +63,14 @@ f="/opt/newsroom/activate.sh"
 dir=$(dirname "$f")
 mkdir -p "$dir"
 
-cat <<"EOF" > /opt/newsroom/activate.sh
-. $python3env/bin/activate
+cat <<EOF > /opt/newsroom/activate.sh
+. /opt/python3env/bin/activate
 
 set -a
 LC_ALL=en_US.UTF-8
 
 # some settings required by client
-PATH=/opt/newsroom/client/node_modules/.bin/:$PATH
+PATH=/opt/newsroom/client/node_modules/.bin/:\$PATH
 SUPERDESK_URL='http://$SuperdeskDomain/api'
 SUPERDESK_WS_URL='ws://$SuperdeskDomain/ws'
 set +a
@@ -107,7 +107,7 @@ time sudo npm run build
 
 
 cat <<"EOF" > /opt/newsroom/activate.sh
-. $python3env/bin/activate
+. /opt/python3env/bin/activate
 
 set -a
 LC_ALL=en_US.UTF-8
@@ -289,7 +289,7 @@ Wants=network.target
 After=network.target
 
 [Service]
-ExecStart=/bin/sh -c '. $python3env/bin/activate && exec python3 $smtp_py $NewsRoomDomain 25 $mails'
+ExecStart=/bin/sh -c '. /opt/python3env/bin/activate && exec python3 $smtp_py $NewsRoomDomain 25 $mails'
 WorkingDirectory=/opt/newsroom
 Restart=always
 
