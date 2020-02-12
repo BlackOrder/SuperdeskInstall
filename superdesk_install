@@ -24,7 +24,7 @@ _skip_install() {
 
 ## virtualenv and activate script
 python3env=/opt/python3env
-if [ ! -d "$python3env" ]; then
+if [ -d "$python3env" ]; then
 rm -Rfv /opt/python3env
 fi
 
