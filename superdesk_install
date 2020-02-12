@@ -21,15 +21,6 @@ _skip_install() {
     dpkg -l | grep '^ii.*'$1 && [ -z ${pkg_upgrade:-''} ]
 }
 
-
-## virtualenv and activate script
-python3env=/opt/python3env
-
-rm -Rfv /opt/python3env
-
-curl -o- https://raw.githubusercontent.com/BlackOrder/SuperdeskInstall/master/subScripts/nvm_python3env | bash
-
-
 ## database
 curl -o- https://raw.githubusercontent.com/BlackOrder/SuperdeskInstall/master/subScripts/database | bash
 
