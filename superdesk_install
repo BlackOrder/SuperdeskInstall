@@ -51,7 +51,7 @@ f="/opt/superdesk/activate.sh"
 dir=$(dirname "$f")
 mkdir -p "$dir"
 
-cat <<EOF > /opt/superdesk/activate.sh
+cat <<"EOF" > /opt/superdesk/activate.sh
 . /opt/python3env/bin/activate
 
 set -a
@@ -59,8 +59,8 @@ LC_ALL=en_US.UTF-8
 
 # some settings required by client
 PATH=/opt/superdesk/client/node_modules/.bin/:$PATH
-SUPERDESK_URL='http://$SuperdeskDomain/api'
-SUPERDESK_WS_URL='ws://$SuperdeskDomain/ws'
+SUPERDESK_URL='http://localhost/api'
+SUPERDESK_WS_URL='ws://localhost/ws'
 set +a
 EOF
 
