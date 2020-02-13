@@ -81,8 +81,8 @@ unset cfg es_backups
 locale-gen en_US.UTF-8
 
 [ -d /var/log/superdesk ] || mkdir -p /var/log/superdesk
-systemctl disable rsyslog
-systemctl stop rsyslog
+systemctl disable rsyslog || true
+systemctl stop rsyslog || true
 
 cat <<"EOF" > /etc/logrotate.d/superdesk
 /var/log/superdesk/*.log {

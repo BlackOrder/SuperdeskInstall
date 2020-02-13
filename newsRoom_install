@@ -87,8 +87,8 @@ unset cfg es_backups
 locale-gen en_US.UTF-8
 
 [ -d /var/log/newsroom ] || mkdir -p /var/log/newsroom
-systemctl disable rsyslog
-systemctl stop rsyslog
+systemctl disable rsyslog || true
+systemctl stop rsyslog || true
 
 cat <<"EOF" > /etc/logrotate.d/newsroom
 /var/log/newsroom/*.log {
