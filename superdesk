@@ -354,10 +354,11 @@ cat <<EOF > $path/default.conf
 server {
     listen 80 default;
 
-    include $path/*.inc;
+    include $path/superdesk.inc;
 }
 EOF
-cat <<EOF > $path/default.inc
+
+cat <<EOF > $path/superdesk.inc
 location /ws {
     proxy_pass http://localhost:5100;
     proxy_http_version 1.1;
@@ -504,7 +505,8 @@ if __name__ == '__main__':
         log.info('Cleaning up')
 EOF
 
-cat <<EOF >> /etc/nginx/conf.d/default.inc
+cat <<EOF >> /etc/nginx/conf.d/superdesk.inc
+
 location /mail {
     alias $mails/;
     default_type text/plain;
