@@ -240,9 +240,10 @@ cd /opt/superdesk/client
 set +ux
 source ~/.nvm/nvm.sh;
 nvm use 7.10.1;
-set -ux
 
 time sudo grunt build --max-old-space-size=3000 --ws=ws://$SuperdeskDomain/ws
+
+set -ux
 )
 
 # Use latest honcho with --no-colour option
