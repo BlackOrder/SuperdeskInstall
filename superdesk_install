@@ -143,7 +143,7 @@ source ~/.nvm/nvm.sh;
 
 nvm use lts/*;
 
-time sudo npm install
+time npm install
 
 set -ux
 
@@ -241,7 +241,7 @@ set +ux
 source ~/.nvm/nvm.sh;
 nvm use 7.10.1;
 
-time sudo grunt build --max-old-space-size=3000 --ws=ws://$SuperdeskDomain/ws
+time grunt build --max-old-space-size=3000 --ws=ws://$SuperdeskDomain/ws
 
 set -ux
 )

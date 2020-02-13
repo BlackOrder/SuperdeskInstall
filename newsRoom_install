@@ -145,9 +145,9 @@ set +ux
 source ~/.nvm/nvm.sh;
 nvm use lts/*;
 
-time sudo npm install
+time npm install
 
-time sudo npm run build
+time npm run build
 
 set -ux
 

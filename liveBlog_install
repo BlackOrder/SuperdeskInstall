@@ -148,13 +148,13 @@ set +ux
 source ~/.nvm/nvm.sh;
 nvm use lts/*;
 
-time sudo npm install
+time npm install
 
 # 3.0.9, 3.1.0 versions need bower
 cd /opt/liveblog/client
 if [ -f bower.json ]; then
-    sudo npm i bower
-    time sudo bower --allow-root install
+    npm i bower
+    time bower --allow-root install
 fi
 
 set -ux
