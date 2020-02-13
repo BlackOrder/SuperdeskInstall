@@ -147,7 +147,6 @@ cd /opt/liveblog/client
 set +ux
 source ~/.nvm/nvm.sh;
 nvm use lts/*;
-set -ux
 
 time sudo npm install
 
@@ -157,6 +156,8 @@ if [ -f bower.json ]; then
     sudo npm i bower
     time sudo bower --allow-root install
 fi
+
+set -ux
 
 ### deploy
 cat <<"EOF" > /opt/liveblog/activate.sh

@@ -140,10 +140,12 @@ cd /opt/superdesk/client
 
 set +ux
 source ~/.nvm/nvm.sh;
+
 nvm use lts/*;
-set -ux
 
 time sudo npm install
+
+set -ux
 
 
 ### deploy

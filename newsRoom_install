@@ -144,10 +144,12 @@ time pip install -r requirements.txt
 set +ux
 source ~/.nvm/nvm.sh;
 nvm use lts/*;
-set -ux
 
 time sudo npm install
+
 time sudo npm run build
+
+set -ux
 
 
 cat <<"EOF" > /opt/newsroom/activate.sh
