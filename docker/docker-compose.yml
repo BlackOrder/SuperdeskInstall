@@ -1,0 +1,67 @@
+version: '2.2'
+services:
+  mongodb:
+    image: mongo:3
+    container_name: mongodbDocker
+    ports:
+    - "127.0.0.1:27017:27017"
+    volumes:
+      - mongodbdata:/data/db
+    restart: always
+
+  redis:
+    image: redis:3
+    container_name: redisDocker
+    ports:
+    - "127.0.0.1:6379:6379"
+    volumes:
+      - redisdata:/data
+    restart: always
+
+  elastic2:
+    image: elasticsearch:2
+    container_name: elastic2Docker
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - elastic2data:/usr/share/elasticsearch/data
+    ports:
+    - "127.0.0.1:9200:9200"
+    - "127.0.0.1:9300:9300"
+    restart: always
+
+  elastic5:
+    image: elasticsearch:5.6
+    container_name: elastic5Docker
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - elastic5data:/usr/share/elasticsearch/data
+    ports:
+    - "127.0.0.1:9204:9200"
+    - "127.0.0.1:9304:9300"
+    restart: always
+
+  postfix:
+    image: catatnight/postfix
+    container_name: postfixDocker
+    environment:
+    - maildomain=mail.sourcefabric.org
+    - smtp_user=user:pwd
+    ports:
+    - "127.0.0.1:25:25"
+    restart: always
+
+volumes:
+  mongodbdata:
+    driver: local
+  redisdata:
+    driver: local
+  elastic2data:
+    driver: local
+  elastic5data:
+    driver: local
