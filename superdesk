@@ -350,9 +350,9 @@ if ! _skip_install nginx; then
 fi
 
 path=/etc/nginx/conf.d
-cat <<EOF > $path/default.conf
+cat <<EOF > $path/superdesk.conf
 server {
-    listen 80 default;
+    listen 80;
 
     include $path/superdesk.inc;
 }

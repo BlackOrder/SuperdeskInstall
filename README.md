@@ -17,13 +17,13 @@ export NVM_DIR=”$HOME/.nvm”
 [ -s "$NVM_DIR/bash_completion" ] && \.   "$NVM_DIR/bash_completion"
 
 nvm install 7.10.1
-
-nvm use 7.10.1
 ```
 
 **Install Superdesk**
 replace `<superdesk_ip_or_domain>` with your `Superdesk's sub/domain`. Default: `localhost`
 ```sh
+nvm use 7.10.1
+
 bash <(curl -s https://raw.githubusercontent.com/BlackOrder/SuperdeskInstall/master/superdesk) <superdesk_ip_or_domain>
 ```
 
@@ -31,6 +31,8 @@ bash <(curl -s https://raw.githubusercontent.com/BlackOrder/SuperdeskInstall/mas
 replace `<superdesk_ip_or_domain>` with your `Superdesk's sub/domain`. Default: `localhost`
 replace `<newsroom_ip_or_domain>` with your `NewsRoom's sub/domain`. Default: `localhost`
 ```sh
+nvm use 7.10.1
+
 bash <(curl -s https://raw.githubusercontent.com/BlackOrder/SuperdeskInstall/master/newsRoom) <superdesk_ip_or_domain> <newsroom_ip_or_domain>
 ```
 
@@ -38,6 +40,8 @@ bash <(curl -s https://raw.githubusercontent.com/BlackOrder/SuperdeskInstall/mas
 replace `<superdesk_ip_or_domain>` with your `Superdesk's sub/domain`. Default: `localhost`
 replace `<liveblog_ip_or_domain>` with your `LiveBlog's sub/domain`. Default: `localhost`
 ```sh
+nvm use 7.10.1
+
 bash <(curl -s https://raw.githubusercontent.com/BlackOrder/SuperdeskInstall/master/liveBlog) <superdesk_ip_or_domain> <liveblog_ip_or_domain>
 ```
 
