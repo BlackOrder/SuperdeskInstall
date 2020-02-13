@@ -5,11 +5,6 @@ set -exuo pipefail
 export DEBIAN_FRONTEND=noninteractive
 export DBUS_SESSION_BUS_ADDRESS=/dev/null
 
-SUPERDESK_DIR=/opt/superdesk/server
-if [ ! -d "$SUPERDESK_DIR" ]; then
-echo "   ****Superdesk installations is missing!**** " 1>&2 ; exit 1;
-fi
-
 SuperdeskDomain=${1:-'localhost'}
 
 NewsRoomDomain=${2:-'localhost'}
@@ -27,9 +22,61 @@ _missing_db() {
 _skip_install() {
     dpkg -l | grep '^ii.*'$1 && [ -z ${pkg_upgrade:-''} ]
 }
+### databases
+# redis
+if ! _skip_install redis-server; then
+    apt-get -y install software-properties-common
+    add-apt-repository -y ppa:chris-lea/redis-server
+    apt-get -y update
+    apt-get -y install --no-install-recommends redis-server || (
+        # seems for some systems we must disable PrivateDevices,
+        # otherwise redis fails on starting
+        # https://bugs.launchpad.net/ubuntu/+source/redis/+bug/1663911
+        path=/etc/systemd/system/redis-server.service.d
+        mkdir $path
+        echo '[Service]' > $path/redis.override.conf
+        echo 'PrivateDevices=no' >> $path/redis.override.conf
+    )
 
-## database
-curl -o- https://raw.githubusercontent.com/BlackOrder/SuperdeskInstall/master/subScripts/database | bash
+    systemctl enable redis-server
+    systemctl restart redis-server
+fi
+
+# mongo
+if ! _skip_install mongodb-org-server; then
+    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927
+    echo "deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.2 multiverse" \
+        > /etc/apt/sources.list.d/mongodb-org-3.2.list
+
+    apt-get -y update
+    apt-get -y install --no-install-recommends \
+        mongodb-org-server \
+        mongodb-org-shell \
+        mongodb-org-tools
+fi
+
+# tune mongo
+cfg=/etc/mongod.conf
+[ -f "${cfg}.bak" ] || mv $cfg $cfg.bak
+cat <<EOF > $cfg
+storage:
+  dbPath: /var/lib/mongodb
+  journal:
+    enabled: true
+  engine: wiredTiger
+
+systemLog:
+  destination: file
+  logAppend: true
+  path: /var/log/mongodb/mongod.log
+
+net:
+  port: 27017
+  bindIp: 0.0.0.0
+EOF
+unset cfg
+systemctl enable mongod
+systemctl restart mongod
 
 
 # elasticsearch
@@ -43,10 +90,9 @@ wait_elastic() {
         sleep 5
     done
 }
-
 if ! _skip_install elasticsearch; then
     # for elasticsearch 2.4.x declare next
-    # elastic_version=2.x
+    # elastic_version=2.4
     version=${elastic_version:-1.7}
     curl -s https://packages.elastic.co/GPG-KEY-elasticsearch | apt-key add -
     echo "deb https://packages.elastic.co/elasticsearch/$version/debian stable main" \
@@ -84,6 +130,7 @@ curl -s -XPUT 'http://localhost:9200/_snapshot/backups' \
 unset cfg es_backups
 
 
+### build
 locale-gen en_US.UTF-8
 
 [ -d /var/log/newsroom ] || mkdir -p /var/log/newsroom
@@ -103,12 +150,41 @@ cat <<"EOF" > /etc/logrotate.d/newsroom
 EOF
 logrotate /etc/logrotate.conf
 
+apt-get update
+apt-get -y install --no-install-recommends \
+git python3 python3-dev python3-venv \
+build-essential libffi-dev \
+libtiff5-dev libjpeg8-dev zlib1g-dev \
+libfreetype6-dev liblcms2-dev libwebp-dev \
+curl libfontconfig libssl-dev \
+libxml2-dev libxslt1-dev \
+libxmlsec1-dev
+
+# node & npm
+if ! _skip_install nodejs; then
+    curl -sL https://deb.nodesource.com/setup_7.x | bash -
+    apt-get install -y nodejs
+
+    npm install -g grunt-cli
+fi
+
+node --version
+npm --version
+grunt --version
+
+## virtualenv and activate script
+env=/opt/newsroom/env
+[ -d $env ] && rm -rf $env
+python3 -m venv $env
+unset env
+
+
 f="/opt/newsroom/activate.sh"
 dir=$(dirname "$f")
 mkdir -p "$dir"
 
 cat <<EOF > /opt/newsroom/activate.sh
-. /opt/python3env/bin/activate
+. /opt/newsroom/env/bin/activate
 
 set -a
 LC_ALL=en_US.UTF-8
@@ -140,20 +216,11 @@ fi
 
 cd /opt/newsroom
 time pip install -r requirements.txt
-
-set +ux
-source ~/.nvm/nvm.sh;
-nvm use lts/*;
-
 time npm install
-
 time npm run build
 
-set -ux
-
-
 cat <<"EOF" > /opt/newsroom/activate.sh
-. /opt/python3env/bin/activate
+. /opt/newsroom/env/bin/activate
 
 set -a
 LC_ALL=en_US.UTF-8
@@ -193,7 +260,7 @@ EOF
 # Use latest honcho with --no-colour option
 pip install -U honcho gunicorn
 
-cat <<EOF > /opt/newsroom/Procfile
+cat <<"EOF" > /opt/newsroom/Procfile
 app: python app.py
 logs: journalctl -u newsroom* -f >> /var/log/newsroom/main.log
 EOF
@@ -236,7 +303,7 @@ server {
 }
 EOF
 
-cat <<EOF > $path/newsroom.inc
+cat <<"EOF" > $path/newsroom.inc
 location / {
     proxy_pass http://localhost:5000;
     expires epoch;
@@ -335,7 +402,7 @@ Wants=network.target
 After=network.target
 
 [Service]
-ExecStart=/bin/sh -c '. /opt/python3env/bin/activate && exec python3 $smtp_py $NewsRoomDomain 25 $mails'
+ExecStart=/bin/sh -c '. /opt/newsroom/env/bin/activate && exec python3 $smtp_py $NewsRoomDomain 25 $mails'
 WorkingDirectory=/opt/newsroom
 Restart=always
 
