@@ -353,7 +353,7 @@ path=/etc/nginx/conf.d
 cat <<EOF > $path/superdesk.conf
 server {
     listen 80;
-
+    server_name $SuperdeskDomain;
     include $path/superdesk.inc;
 }
 EOF
